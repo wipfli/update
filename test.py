@@ -1,28 +1,14 @@
 import update
 
-url = 'https://api.github.com/repos/wipfli/test/releases'
-prerelease = True
+passive_partition = update.get_passive_partition()
 
-#releases = [{'name': 'first', 'prerelease': True}, {'name': 'second', 'prerelease': False}]
-
-#releases = update.get_releases(url)
-
-#release = update.get_latest_release(releases, include_prereleases=True)
+print(passive_partition)
 
 def progress_callback(percentage):
     print(percentage)
+    
+update.download(url='https://github.com/wipfli/update/releases/download/v0.1.0/rootfs.ext2.xz', passive_partition=passive_partition, progress_callback=progress_callback, total_size=52807640)
 
-#update.download_assets(release, 'download/', progress_callback)
+print(update.get_checksum(passive_partition))
 
-
-#update.download_file('https://dl.influxdata.com/influxdb/releases/influxdb-1.8.2_linux_amd64.tar.gz', 'download', progress_callback)
-
-#print(update.extract_xz('download/rootfs.ext2.xz'))
-
-#print(update.remove_all(path='download/new/'))
-
-#print(update.copy_all(src='download/influxdb-1.8.2-1/', dest='download/new/'))
-
-#print(update.get_tar_md5sum('download/'))
-
-print(update.flash_boot_select(partition='mmclbk0p2', filename='hallo.txt'))
+update.flash_boot_select(passive_partition)
